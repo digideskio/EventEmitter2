@@ -159,7 +159,7 @@ module.exports = simpleEvents({
     test.done();
 
   },
-  '6. Stop propagation of an onAny event.': function (test) {
+  '7. Stop propagation of an onAny event.': function (test) {
 
     var emitter = new EventEmitter2({ verbose: true });
 
@@ -203,7 +203,7 @@ module.exports = simpleEvents({
     test.done();
 
   },
-  '7. Check return values of emit.': function (test) {
+  '8. Check return values of emit.': function (test) {
 
     var emitter = new EventEmitter2({ verbose: true });
 
@@ -219,9 +219,9 @@ module.exports = simpleEvents({
 
     test.expect(5);
     test.done();
-  }
+  },
 
-  '7. Check return values of wildcardEmitter.emit.': function (test) {
+  '9. Check return values of wildcardEmitter.emit.': function (test) {
     var emitter = new EventEmitter2({ verbose: true, wildcard: true });
     function functionA() { test.ok(true, 'The event was raised'); }
 
@@ -235,7 +235,7 @@ module.exports = simpleEvents({
 
     test.expect(6);
     test.done();
-  },
+  }
 
 });
 
