@@ -12,6 +12,7 @@ EventEmitter2 is an implementation of the EventEmitter module found in Node.js. 
 ### FEATURES
  - Namespaces/Wildcards.
  - Times To Listen (TTL), extends the `once` concept with `many`.
+ - Allows a listener to stop propagation of an event
  - Browser environment compatibility.
  - Demonstrates good performance in benchmarks
 
@@ -24,6 +25,7 @@ Fastest is EventEmitter2
 ```
 
 ### Differences (Non-breaking, compatible with existing EventEmitter)
+
 
  - The EventEmitter2 constructor takes an optional configuration object.
  
@@ -39,12 +41,12 @@ Fastest is EventEmitter2
       //
       // the delimiter used to segment namespaces, defaults to `.`.
       //
-      delimiter: '::', 
-      
+      delimiter: '::',
+
       //
       // set this to `true` if you want to emit the newListener event. The default value is `true`.
       //
-      newListener: false, 
+      newListener: false,
 
       //
       // the maximum amount of listeners that can be assigned to an event, default 10.
@@ -92,16 +94,17 @@ removed.
 
 
 **Namespaces** with **Wildcards**
-To use namespaces/wildcards, pass the `wildcard` option into the EventEmitter 
-constructor. When namespaces/wildcards are enabled, events can either be 
-strings (`foo.bar`) separated by a delimiter or arrays (`['foo', 'bar']`). The 
+
+To use namespaces/wildcards, pass the `wildcard` option into the EventEmitter
+constructor. When namespaces/wildcards are enabled, events can either be
+strings (`foo.bar`) separated by a delimiter or arrays (`['foo', 'bar']`). The
 delimiter is also configurable as a constructor option.
 
-An event name passed to any event emitter method can contain a wild card (the 
-`*` character). If the event name is a string, a wildcard may appear as `foo.*`. 
+An event name passed to any event emitter method can contain a wild card (the
+`*` character). If the event name is a string, a wildcard may appear as `foo.*`.
 If the event name is an array, the wildcard may appear as `['foo', '*']`.
 
-If either of the above described events were passed to the `on` method, 
+If either of the above described events were passed to the `on` method,
 subsequent emits such as the following would be observed...
 
 ```javascript
@@ -109,6 +112,10 @@ subsequent emits such as the following would be observed...
    emitter.emit(['foo', 'bar']);
 ```
 
+**Stopping Propagation**
+
+To stop propagation of an event, a listener can `return false;`. The check is made with the `===` operator, so all other falsy types will allow propagation to continue.
+=======
 # Multi-level Wildcards
 A double wildcard (the string `**`) matches any number of levels (zero or more) of events. So if for example `'foo.**'` is passed to the `on` method, the following events would be observed:
 
@@ -160,7 +167,7 @@ Removes the listener that will be fired when any event is emitted.
 
 #### emitter.once(event, listener)
 
-Adds a **one time** listener for the event. The listener is invoked 
+Adds a **one time** listener for the event. The listener is invoked
 only the first time the event is fired, after which it is removed.
 
 ```javascript
@@ -172,7 +179,7 @@ only the first time the event is fired, after which it is removed.
 ### emitter.many(event, timesToListen, listener)
 
 Adds a listener that will execute **n times** for the event before being
-removed. The listener is invoked only the first **n times** the event is 
+removed. The listener is invoked only the first **n times** the event is
 fired, after which it is removed.
 
 ```javascript
@@ -185,8 +192,13 @@ fired, after which it is removed.
 ### emitter.removeListener(event, listener)
 ### emitter.off(event, listener)
 
+<<<<<<< HEAD
+Remove a listener from the listener array for the specified event.
+**Caution**: changes array indices in the listener array behind the listener.
+=======
 Remove a listener from the listener array for the specified event. 
 **Caution**: Calling this method changes the array indices in the listener array behind the listener.
+>>>>>>> master
 
 ```javascript
     var callback = function(value) {
@@ -205,15 +217,15 @@ Removes all listeners, or those of the specified event.
 
 ### emitter.setMaxListeners(n)
 
-By default EventEmitters will print a warning if more than 10 listeners 
-are added to it. This is a useful default which helps finding memory leaks. 
-Obviously not all Emitters should be limited to 10. This function allows 
+By default EventEmitters will print a warning if more than 10 listeners
+are added to it. This is a useful default which helps finding memory leaks.
+Obviously not all Emitters should be limited to 10. This function allows
 that to be increased. Set to zero for unlimited.
 
 
 ### emitter.listeners(event)
 
-Returns an array of listeners for the specified event. This array can be 
+Returns an array of listeners for the specified event. This array can be
 manipulated, e.g. to remove listeners.
 
 ```javascript
@@ -225,7 +237,7 @@ manipulated, e.g. to remove listeners.
 
 ### emitter.listenersAny()
 
-Returns an array of listeners that are listening for any event that is 
+Returns an array of listeners that are listening for any event that is
 specified. This array can be manipulated, e.g. to remove listeners.
 
 ```javascript
@@ -237,13 +249,14 @@ specified. This array can be manipulated, e.g. to remove listeners.
 
 ### emitter.emit(event, [arg1], [arg2], [...])
 
-Execute each of the listeners that may be listening for the specified event 
+Execute each of the listeners that may be listening for the specified event
 name in order with the list of arguments.
 
 ### emitter.emitAsync(event, [arg1], [arg2], [...])
 
 Return the results of the listeners via [Promise.all](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all).
 Only this method doesn't work [IE](http://caniuse.com/#search=promise).
+
 
 ```javascript
     emitter.on('get',function(i) {
